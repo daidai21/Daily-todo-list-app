@@ -1,4 +1,23 @@
 {
-  "nextId": 0,
-  "todos": []
+  "nextId": 3,
+  "todos": [
+    {
+      "id": "todo-1",
+      "title": "学习 H5 + Lynx + Native + Go Server",
+      "completed": false,
+      "createdAt": 1782557780301
+    },
+    {
+      "id": "todo-2",
+      "title": "健身",
+      "completed": true,
+      "createdAt": 1782557847083
+    },
+    {
+      "id": "todo-3",
+      "title": "阅读",
+      "completed": false,
+      "createdAt": 1782557903766
+    }
+  ]
 }
