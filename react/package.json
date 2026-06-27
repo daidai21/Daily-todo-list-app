@@ -1,0 +1,30 @@
+{
+    "name": "daily-todo-react-native-android",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "android": "react-native run-android",
+        "start": "react-native start",
+        "typecheck": "tsc --noEmit",
+        "build:debug": "cd ../native-android && ./gradlew assembleDebug",
+        "build:release": "cd ../native-android && ./gradlew assembleRelease",
+        "clean": "cd ../native-android && ./gradlew clean"
+    },
+    "dependencies": {
+        "react": "19.1.0",
+        "react-native": "0.80.0"
+    },
+    "devDependencies": {
+        "@react-native/babel-preset": "0.80.0",
+        "@react-native-community/cli": "19.0.0",
+        "@react-native-community/cli-platform-android": "19.0.0",
+        "@react-native/metro-config": "0.80.0",
+        "@react-native/typescript-config": "0.80.0",
+        "@types/jest": "29.5.14",
+        "@types/react": "19.1.0",
+        "typescript": "5.8.3"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}

@@ -40,6 +40,10 @@ dist/
 # artifacts/*
 !artifacts/ios/
 !artifacts/ios/.gitkeep
+!artifacts/android/
+!artifacts/android/.gitkeep
+*.apk
+*.aab
 
 # iOS / Xcode
 # DerivedData/

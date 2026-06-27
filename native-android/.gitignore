@@ -1,0 +1,13 @@
+# Gradle / Android build output
+.gradle/
+build/
+app/build/
+local.properties
+
+# Logs
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
