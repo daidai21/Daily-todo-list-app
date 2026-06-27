@@ -16,7 +16,7 @@
 ```text
 native-ios/
 ├── Makefile
-├── Podfile
+├── Podfile                             # 是 iOS/macOS 开发中 CocoaPods 依赖管理工具的核心配置文件（Ruby 语法），用来声明项目依赖、配置编译参数、统一第三方库设置
 ├── project.yml                         # XcodeGen 工程描述
 ├── DailyTodoNative/
 │   ├── AppDelegate.swift
@@ -39,10 +39,13 @@ native-ios/
 
 ```bash
 brew install xcodegen
-sudo gem install cocoapods
+brew install cocoapods
 ```
 
 并安装 Xcode。
+> https://github.com/XcodesOrg/xcodes/releases
+> Xcode 16.2
+> 命令行安装的
 
 ## 4. 初始化工程
 
@@ -191,6 +194,13 @@ platform=iOS Simulator,name=iPhone 16
 
 ```bash
 make build DESTINATION='platform=iOS Simulator,name=iPhone 15'
+
+xcodebuild -workspace DailyTodoNative.xcworkspace \
+  -scheme DailyTodoNative \
+  -configuration Debug \
+  -sdk iphonesimulator \
+  ARCHS=arm64 \
+  ONLY_ACTIVE_ARCH=YES
 ```
 
 ## 8. 当前限制

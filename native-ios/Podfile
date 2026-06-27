@@ -1,9 +1,18 @@
-source 'https://cdn.cocoapods.org/'
+# source 'https://cdn.cocoapods.org/'
+# source 'https://mirrors.aliyun.com/cocoapods/trunk/'
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
-platform :ios, '15.0'
+# platform :ios, '15.0'
+platform :ios, '12.0'
+use_frameworks!
+
+# 必须加这个插件
+plugin 'cocoapods-lynx-library'
 
 target 'DailyTodoNative' do
-  use_frameworks!
+  use_frameworks! # 必须开启
+  # use_lynx_library! # 必须调用
+
 
   pod 'Lynx', '3.8.0', :subspecs => [
     'Framework',
@@ -19,4 +28,13 @@ target 'DailyTodoNative' do
 
   pod 'SDWebImage', '5.15.5'
   pod 'SDWebImageWebPCoder', '0.11.0'
+end
+
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+    end
+  end
 end
