@@ -1,17 +1,22 @@
+import type { FormEvent } from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import {
     createTodo,
     getSummary,
     listTodos,
+    type Todo,
+    type TodoSummary,
     updateTodoCompleted,
-} from "./api.js"
-import { getInitialApiBase } from "./config.js"
-import { notifyNative } from "./nativeBridge.js"
+} from "./api"
+import { getInitialApiBase } from "./config"
+import { notifyNative } from "./nativeBridge"
+
+const emptySummary: TodoSummary = { total: 0, completed: 0, uncompleted: 0 }
 
 export function App() {
     const [apiBase] = useState(getInitialApiBase)
-    const [todos, setTodos] = useState([])
-    const [summary, setSummary] = useState({ total: 0, completed: 0, uncompleted: 0 })
+    const [todos, setTodos] = useState<Todo[]>([])
+    const [summary, setSummary] = useState<TodoSummary>(emptySummary)
     const [title, setTitle] = useState("")
     const [status, setStatus] = useState("准备同步任务数据")
     const [loading, setLoading] = useState(false)
@@ -24,10 +29,10 @@ export function App() {
                 getSummary(apiBase),
             ])
             setTodos(Array.isArray(todoList) ? todoList : [])
-            setSummary(todoSummary || { total: 0, completed: 0, uncompleted: 0 })
+            setSummary(todoSummary || emptySummary)
             setStatus("任务数据已同步")
         } catch (error) {
-            setStatus(`加载失败：${error.message}`)
+            setStatus(`加载失败：${getErrorMessage(error)}`)
         } finally {
             setLoading(false)
         }
@@ -37,12 +42,9 @@ export function App() {
         loadTodos()
     }, [loadTodos])
 
-    const uncompletedTodos = useMemo(
-        () => todos.filter((todo) => !todo.completed),
-        [todos],
-    )
+    const uncompletedTodos = useMemo(() => todos.filter((todo) => !todo.completed), [todos])
 
-    async function handleCreateTodo(event) {
+    async function handleCreateTodo(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         const nextTitle = title.trim()
@@ -58,13 +60,13 @@ export function App() {
             setStatus("任务已添加")
             await loadTodos()
         } catch (error) {
-            setStatus(`添加失败：${error.message}`)
+            setStatus(`添加失败：${getErrorMessage(error)}`)
         } finally {
             setLoading(false)
         }
     }
 
-    async function handleToggleTodo(todo, completed) {
+    async function handleToggleTodo(todo: Todo, completed: boolean) {
         setLoading(true)
         try {
             await updateTodoCompleted(apiBase, todo.id, completed)
@@ -76,16 +78,17 @@ export function App() {
             setStatus(completed ? "任务已完成" : "任务已恢复为未完成")
             await loadTodos()
         } catch (error) {
-            setStatus(`更新失败：${error.message}`)
+            setStatus(`更新失败：${getErrorMessage(error)}`)
         } finally {
             setLoading(false)
         }
     }
 
     function handleRemind() {
-        const message = uncompletedTodos.length > 0
-            ? `你还有 ${uncompletedTodos.length} 个今日任务未完成`
-            : "今天的任务都完成啦"
+        const message =
+            uncompletedTodos.length > 0
+                ? `你还有 ${uncompletedTodos.length} 个今日任务未完成`
+                : "今天的任务都完成啦"
 
         notifyNative("remind", {
             message,
@@ -114,12 +117,19 @@ export function App() {
                 onRemind={handleRemind}
             />
 
-            <p className="status-text" role="status">{status}</p>
+            <p className="status-text" role="status">
+                {status}
+            </p>
         </main>
     )
 }
 
-function HeroCard({ loading, onRefresh }) {
+type HeroCardProps = {
+    loading: boolean
+    onRefresh: () => void
+}
+
+function HeroCard({ loading, onRefresh }: HeroCardProps) {
     return (
         <section className="hero-card">
             <div>
@@ -134,7 +144,11 @@ function HeroCard({ loading, onRefresh }) {
     )
 }
 
-function SummaryGrid({ summary }) {
+type SummaryGridProps = {
+    summary: TodoSummary
+}
+
+function SummaryGrid({ summary }: SummaryGridProps) {
     return (
         <section className="summary-grid" aria-label="今日任务统计">
             <SummaryItem count={summary.total} label="总任务" />
@@ -144,7 +158,13 @@ function SummaryGrid({ summary }) {
     )
 }
 
-function SummaryItem({ count, label, className = "" }) {
+type SummaryItemProps = {
+    count: number
+    label: string
+    className?: string
+}
+
+function SummaryItem({ count, label, className = "" }: SummaryItemProps) {
     return (
         <article className={`summary-item ${className}`}>
             <span>{count}</span>
@@ -153,29 +173,47 @@ function SummaryItem({ count, label, className = "" }) {
     )
 }
 
-function AddTodoForm({ title, loading, onTitleChange, onSubmit }) {
+type AddTodoFormProps = {
+    title: string
+    loading: boolean
+    onTitleChange: (title: string) => void
+    onSubmit: (event: FormEvent<HTMLFormElement>) => void
+}
+
+function AddTodoForm({ title, loading, onTitleChange, onSubmit }: AddTodoFormProps) {
     return (
         <form className="add-form" onSubmit={onSubmit}>
             <input
                 type="text"
                 value={title}
-                maxLength="60"
+                maxLength={60}
                 placeholder="添加一个今日任务"
                 autoComplete="off"
                 required
                 onChange={(event) => onTitleChange(event.target.value)}
             />
-            <button type="submit" disabled={loading}>添加</button>
+            <button type="submit" disabled={loading}>
+                添加
+            </button>
         </form>
     )
 }
 
-function TodoSection({ todos, loading, onToggleTodo, onRemind }) {
+type TodoSectionProps = {
+    todos: Todo[]
+    loading: boolean
+    onToggleTodo: (todo: Todo, completed: boolean) => void
+    onRemind: () => void
+}
+
+function TodoSection({ todos, loading, onToggleTodo, onRemind }: TodoSectionProps) {
     return (
         <section className="todo-section">
             <div className="section-title">
                 <h2>任务列表</h2>
-                <button className="text-button" type="button" onClick={onRemind}>提醒我</button>
+                <button className="text-button" type="button" onClick={onRemind}>
+                    提醒我
+                </button>
             </div>
 
             {todos.length === 0 ? (
@@ -199,7 +237,13 @@ function TodoSection({ todos, loading, onToggleTodo, onRemind }) {
     )
 }
 
-function TodoItem({ todo, disabled, onToggleTodo }) {
+type TodoItemProps = {
+    todo: Todo
+    disabled: boolean
+    onToggleTodo: (todo: Todo, completed: boolean) => void
+}
+
+function TodoItem({ todo, disabled, onToggleTodo }: TodoItemProps) {
     return (
         <li className={`todo-item ${todo.completed ? "is-completed" : ""}`}>
             <label className="todo-check">
@@ -219,7 +263,7 @@ function TodoItem({ todo, disabled, onToggleTodo }) {
     )
 }
 
-function formatTime(timestamp) {
+function formatTime(timestamp: number): string {
     const date = new Date(timestamp)
     if (Number.isNaN(date.getTime())) {
         return "创建时间未知"
@@ -231,4 +275,11 @@ function formatTime(timestamp) {
         hour: "2-digit",
         minute: "2-digit",
     }).format(date)
+}
+
+function getErrorMessage(error: unknown): string {
+    if (error instanceof Error) {
+        return error.message
+    }
+    return "未知错误"
 }
