@@ -27,6 +27,7 @@ open:
 
 build: sync-bundle
 	xcodebuild -workspace DailyTodoNative.xcworkspace -scheme $(SCHEME) -configuration $(CONFIGURATION) -destination '$(DESTINATION)' build
+	# xcodebuild -workspace DailyTodoNative.xcworkspace -scheme DailyTodoNative -configuration Debug -sdk iphonesimulator build
 
 sync-bundle:
 	$(MAKE) -C ../lynx build

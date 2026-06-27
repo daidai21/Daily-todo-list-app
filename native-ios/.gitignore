@@ -4,10 +4,12 @@ DerivedData/
 xcuserdata/
 *.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
+DailyTodoNative.xcodeproj/
 
 # CocoaPods
 Pods/
 DailyTodoNative.xcworkspace/
+Podfile.lock
 
 # Build output
 build/
@@ -16,3 +18,5 @@ build/.gitkeep
 # Local
 .DS_Store
 *.log
+
+main.lynx.bundle
