@@ -1,0 +1,53 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.facebook.react")
+}
+
+react {
+    root = file("../../react")
+    reactNativeDir = file("../../react/node_modules/react-native")
+    codegenDir = file("../../react/node_modules/@react-native/codegen")
+    cliFile = file("../../react/node_modules/react-native/cli.js")
+    entryFile = file("../../react/index.js")
+    autolinkLibrariesWithApp()
+}
+
+def enableProguardInReleaseBuilds = false
+def jscFlavor = "io.github.react-native-community:jsc-android:2026004.+"
+
+android {
+    namespace "com.dailytodo.nativeandroid"
+    compileSdk rootProject.ext.has("compileSdkVersion") ? rootProject.ext.compileSdkVersion : 35
+
+    defaultConfig {
+        applicationId "com.dailytodo.nativeandroid"
+        minSdkVersion rootProject.ext.has("minSdkVersion") ? rootProject.ext.minSdkVersion : 24
+        targetSdkVersion rootProject.ext.has("targetSdkVersion") ? rootProject.ext.targetSdkVersion : 35
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation("com.facebook.react:react-android")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.core:core-ktx:1.16.0")
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}
