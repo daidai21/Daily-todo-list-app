@@ -15,6 +15,12 @@
 
 ## 2. Demo 效果
 
+### 2.1 H5 页面图例
+
+![H5 今日待办页面](imgs/h5.png)
+
+### 2.2 功能概览
+
 一个 Native Demo App 内包含：
 
 1. **H5 任务管理页**
@@ -48,6 +54,13 @@
 | Lynx | 今日任务概览卡片 | 跨端动态组件、卡片化 UI、轻量交互、与 Native 通信 |
 | Native | App 宿主与系统能力 | WebView / Lynx 容器、JSBridge、Toast、本地通知、震动 |
 | Go Server | 任务数据接口与本地存储 | REST API、HTTP 服务、JSON 编解码、JSON 文件存储 |
+
+### 3.1 跨端组合规划
+
+| 组合 | 当前状态 | 说明 |
+| --- | --- | --- |
+| React Lynx + iOS | 已实现 | 使用 ReactLynx / Rspeedy 构建 `main.lynx.bundle`，由 `native-ios` iOS 宿主加载并提供 Native Bridge。 |
+| React Native + Android | TODO | 待后续新增 Android Native 宿主与 React Native 页面，用于对比学习 RN 在 Android 侧的工程结构、打包发布和 Native Bridge。 |
 
 ## 4. 核心功能
 
@@ -205,7 +218,18 @@ Daily-todo-list-app/
 └── native-ios/         # iOS Native Demo App
 ```
 
-## 10. 入门价值
+## 10. 子模块说明
+
+各子目录有更具体的运行方式、工程命令和调试说明：
+
+| 模块 | 说明 | 文档 |
+| --- | --- | --- |
+| Server | Go 后端服务，提供 Todo REST API 和本地 JSON 存储 | [server/README.md](server/README.md) |
+| H5 | React + TypeScript + Vite + SCSS 实现的 H5 任务管理页面 | [h5/README.md](h5/README.md) |
+| Lynx | ReactLynx + Rspeedy 实现的 Lynx 任务页面 / 卡片 | [lynx/README.md](lynx/README.md) |
+| Native iOS | iOS Native 宿主工程，加载 Lynx bundle 并提供 Native Bridge | [native-ios/README.md](native-ios/README.md) |
+
+## 11. 入门价值
 
 这个项目不追求业务复杂度，而是聚焦混合开发的关键链路：
 
@@ -216,7 +240,7 @@ Daily-todo-list-app/
 - Native 如何响应前端事件并提供系统能力
 - 一个简单业务如何拆分到 H5、Lynx、Native、Server 四层中实现
 
-## 11. 后续可扩展方向
+## 12. 后续可扩展方向
 
 - 接入真实接口或本地数据库
 - Server 接入 SQLite / MySQL
