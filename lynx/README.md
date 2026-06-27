@@ -143,3 +143,9 @@ Lynx 页面会向 Native 发送统一消息：
 - 标记任务未完成：`reopenTodo`
 
 普通 Lynx Explorer 调试环境如果没有 Native Bridge，会 fallback 到 `console.info`。
+
+## TODO
+
+- [ ] Lynx 调试：补充 iOS Simulator / Lynx Explorer / Lynx DevTool 的实际调试流程。
+- [ ] Lynx 调试：验证 `main.lynx.bundle` 在手机和模拟器中的打开方式。
+- [ ] Lynx 调试：整理常见问题排查清单，例如端口不可访问、Server API 访问失败、白屏和 Bridge fallback。
