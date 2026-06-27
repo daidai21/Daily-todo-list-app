@@ -30,8 +30,8 @@
 # !server/data/.gitkeep
 
 # Frontend dependencies / build output
-# node_modules/
-# dist/
+node_modules/
+dist/
 # build/
 # .turbo/
 # .cache/
