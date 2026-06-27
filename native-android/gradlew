@@ -1,9 +1,0 @@
-#!/bin/sh
-set -e
-
-if command -v gradle >/dev/null 2>&1; then
-    exec gradle "$@"
-fi
-
-echo "未找到 Gradle。请先安装 Gradle，或在 Android Studio 中为 android/ 目录生成 Gradle Wrapper。" >&2
-exit 127

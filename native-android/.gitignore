@@ -4,6 +4,11 @@ build/
 app/build/
 local.properties
 
+gradle-7.5/
+gradle-7.5-bin.zip
+gradle-7.6.6-bin.zip
+gradle-7.6.6/
+
 # Logs
 *.log
 
