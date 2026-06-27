@@ -17,7 +17,9 @@
 h5/
 ├── Makefile
 ├── README.md
+├── dist/                   # 构建产物目录，执行 make build 后生成，不需要手写维护
 ├── index.html              # Vite HTML 入口
+├── node_modules/           # 依赖安装目录，执行 make install / make run / make build 后生成
 ├── package.json
 ├── package-lock.json
 ├── vite.config.js

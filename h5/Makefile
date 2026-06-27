@@ -11,8 +11,11 @@ help:
 install:
 	npm install
 
-run:
+node_modules: package.json package-lock.json
+	npm install
+
+run: node_modules
 	npm run dev -- --host 0.0.0.0 --port $(PORT)
 
-build:
+build: node_modules
 	npm run build
