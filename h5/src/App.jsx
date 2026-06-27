@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import {
     createTodo,
-    getInitialApiBase,
     getSummary,
     listTodos,
-    saveApiBase,
     updateTodoCompleted,
 } from "./api.js"
+import { getInitialApiBase, saveApiBase } from "./config.js"
 import { notifyNative } from "./nativeBridge.js"
 
 export function App() {

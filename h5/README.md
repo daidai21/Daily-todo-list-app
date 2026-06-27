@@ -18,6 +18,7 @@ h5/
 ├── Makefile
 ├── README.md
 ├── dist/                   # 构建产物目录，执行 make build 后生成，不需要手写维护
+├── .env.example            # Server API 域名配置示例
 ├── index.html              # Vite HTML 入口
 ├── node_modules/           # 依赖安装目录，执行 make install / make run / make build 后生成
 ├── package.json
@@ -26,6 +27,7 @@ h5/
 └── src/
     ├── App.jsx             # React 主页面与组件拆分
     ├── api.js              # Go Server API 调用封装
+    ├── config.js           # Server API 域名配置读取逻辑
     ├── main.jsx            # React 挂载入口
     ├── nativeBridge.js     # Native Bridge 调用封装
     └── styles.css          # 页面样式
@@ -55,10 +57,10 @@ make run
 http://localhost:5173
 ```
 
-也可以自定义端口：
+也可以自定义 H5 端口和默认 Server API 地址：
 
 ```bash
-make run PORT=3000
+make run PORT=3000 API_BASE_URL=http://localhost:8080
 ```
 
 ## 5. 构建产物
@@ -73,13 +75,54 @@ make build
 dist/
 ```
 
-## 6. 联调 Server
+也可以指定构建产物中的默认 Server API 地址：
 
-H5 默认请求的 Server 地址是：
+```bash
+make build API_BASE_URL=https://api.example.com
+```
+
+## 6. Server 域名配置
+
+H5 调用 Server 的地址已经配置化，默认值来自：
 
 ```text
-http://localhost:8080
+VITE_API_BASE_URL=http://localhost:8080
 ```
+
+配置示例文件：
+
+```text
+.env.example
+```
+
+可以复制一份本地配置：
+
+```bash
+cp .env.example .env.local
+```
+
+然后修改：
+
+```env
+VITE_API_BASE_URL=http://localhost:8080
+```
+
+当前读取优先级：
+
+1. URL Query：`?apiBase=http://localhost:8080`
+2. 页面内保存到 LocalStorage 的 Server 地址
+3. Vite 环境变量：`VITE_API_BASE_URL`
+4. 兜底默认值：`http://localhost:8080`
+
+配置读取逻辑位于：
+
+```text
+src/config.js
+```
+
+## 7. 联调 Server
+
+请先启动 Go Server：
 
 请先启动 Go Server：
 
@@ -103,7 +146,7 @@ make run
 http://localhost:5173/?apiBase=http://localhost:8080
 ```
 
-## 7. 已实现功能
+## 8. 已实现功能
 
 - 查看今日任务列表
 - 添加新任务
@@ -113,7 +156,7 @@ http://localhost:5173/?apiBase=http://localhost:8080
 - 配置 Server API 地址
 - 点击「提醒我」触发 Native Bridge 预留逻辑
 
-## 8. API 调用
+## 9. API 调用
 
 H5 调用的接口来自 Go Server：
 
@@ -130,7 +173,7 @@ API 封装位置：
 src/api.js
 ```
 
-## 9. React 学习点
+## 10. React 学习点
 
 这个 H5 页面适合学习 React 入门常见知识：
 
@@ -146,7 +189,7 @@ src/api.js
 - 组件 Props 传递
 - Fetch 请求后端接口
 
-## 10. Native Bridge 预留
+## 11. Native Bridge 预留
 
 Native Bridge 封装在：
 
@@ -174,7 +217,7 @@ window.webkit.messageHandlers.TodoNative.postMessage(...)
 
 如果当前不是 Native 宿主环境，会 fallback 到 `console.info`。
 
-## 11. 推荐学习顺序
+## 12. 推荐学习顺序
 
 1. 先阅读 `src/main.jsx`，了解 React 如何挂载到页面。
 2. 再阅读 `src/App.jsx`，理解页面组件和状态如何组织。
