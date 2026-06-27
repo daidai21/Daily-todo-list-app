@@ -36,6 +36,11 @@ dist/
 # .turbo/
 # .cache/
 
+# Release artifacts
+# artifacts/*
+!artifacts/ios/
+!artifacts/ios/.gitkeep
+
 # iOS / Xcode
 # DerivedData/
 # *.xcuserstate

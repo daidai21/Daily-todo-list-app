@@ -11,6 +11,7 @@ DailyTodoNative.xcworkspace/
 
 # Build output
 build/
+build/.gitkeep
 
 # Local
 .DS_Store
