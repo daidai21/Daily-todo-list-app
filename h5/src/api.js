@@ -1,10 +1,12 @@
 export async function requestJSON(apiBase, path, options = {}) {
+    const headers = {
+        ...(options.body ? { "Content-Type": "application/json" } : {}),
+        ...(options.headers || {}),
+    }
+
     const response = await fetch(`${apiBase}${path}`, {
         ...options,
-        headers: {
-            "Content-Type": "application/json",
-            ...(options.headers || {}),
-        },
+        headers,
     })
 
     const text = await response.text()
