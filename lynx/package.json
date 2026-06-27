@@ -1,0 +1,38 @@
+{
+    "name": "daily-todo-lynx",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "build": "rspeedy build",
+        "dev": "rspeedy dev",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "lint": "eslint .",
+        "preview": "rspeedy preview",
+        "typecheck": "tsc -b"
+    },
+    "dependencies": {
+        "@lynx-js/react": "^0.121.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@lynx-js/preact-devtools": "5.0.1-20260525112551-dfe2d03",
+        "@lynx-js/qrcode-rsbuild-plugin": "^0.5.0",
+        "@lynx-js/react-rsbuild-plugin": "^0.17.0",
+        "@lynx-js/rspeedy": "^0.15.0",
+        "@lynx-js/types": "3.7.0",
+        "@rsbuild/plugin-type-check": "1.3.4",
+        "@types/react": "^18.3.28",
+        "eslint": "^10.4.0",
+        "eslint-plugin-react-hooks": "^7.1.1",
+        "eslint-plugin-react-refresh": "^0.5.2",
+        "globals": "^17.6.0",
+        "prettier": "^3.8.3",
+        "typescript": "~5.9.3",
+        "typescript-eslint": "^8.59.4"
+    },
+    "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+    },
+    "private": true
+}
