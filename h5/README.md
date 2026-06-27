@@ -9,7 +9,7 @@
 - TypeScript / TSX
 - ESLint
 - Prettier
-- 原生 CSS
+- SCSS
 - Fetch API
 
 ## 2. 目录结构
@@ -37,7 +37,7 @@ h5/
     ├── config.ts           # Server API 域名配置读取逻辑
     ├── main.tsx            # React 挂载入口
     ├── nativeBridge.ts     # Native Bridge 调用封装
-    └── styles.css          # 页面样式
+    └── styles.scss         # 页面样式
 ```
 
 ## 3. 安装依赖
@@ -252,4 +252,4 @@ window.webkit.messageHandlers.TodoNative.postMessage(...)
 4. 阅读 `src/config.ts`，理解环境变量如何进入前端代码。
 5. 阅读 `src/nativeBridge.ts`，理解 H5 如何预留 Native 通信入口。
 6. 阅读 `eslint.config.js` 和 `.prettierrc.json`，理解代码检查和格式化配置。
-7. 最后阅读 `src/styles.css`，理解移动端页面样式如何组织。
+7. 最后阅读 `src/styles.scss`，理解移动端页面样式如何组织。

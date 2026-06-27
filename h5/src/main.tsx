@@ -1,8 +1,8 @@
 import { createRoot } from "react-dom/client"
 import { App } from "./App"
 
-// 全局样式入口：Vite 会把这里导入的 CSS 一起打包到页面中。
-import "./styles.css"
+// 全局样式入口：Vite 会通过 Sass 把这里导入的 SCSS 编译成 CSS，并一起打包到页面中。
+import "./styles.scss"
 
 // index.html 中预留了 <div id="root"></div>，React 会把整个 App 挂载到这个节点下。
 const root = document.querySelector("#root")
