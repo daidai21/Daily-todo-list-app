@@ -19,6 +19,10 @@ h5/
 ├── Makefile
 ├── README.md
 ├── dist/                   # 构建产物目录，执行 make build 后生成，不需要手写维护
+│   ├── assets
+│   │   ├── index-ChK94z1D.css # .
+│   │   └── index-CLG6G9dJ.js  # 压缩后的代码，减小体积,加快加载，浏览器缓存控制，减小网络传输体积，提高逆向阅读成本
+│   └── index.html             # .
 ├── .env                    # Server API 域名配置示例
 ├── .prettierignore         # Prettier 忽略规则
 ├── .prettierrc.json        # Prettier 格式化配置
