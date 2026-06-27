@@ -9,6 +9,8 @@ func WithCORS(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
+		// H5 默认通过 Vite /api 代理同源访问，不会触发浏览器 OPTIONS 预检。
+		// 这里保留 OPTIONS 处理，作为直接跨域调试 Go API 时的兼容兜底。
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)
 			return
