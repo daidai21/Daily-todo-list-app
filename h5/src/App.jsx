@@ -5,12 +5,11 @@ import {
     listTodos,
     updateTodoCompleted,
 } from "./api.js"
-import { getInitialApiBase, saveApiBase } from "./config.js"
+import { getInitialApiBase } from "./config.js"
 import { notifyNative } from "./nativeBridge.js"
 
 export function App() {
-    const [apiBase, setApiBase] = useState(getInitialApiBase)
-    const [apiBaseDraft, setApiBaseDraft] = useState(apiBase)
+    const [apiBase] = useState(getInitialApiBase)
     const [todos, setTodos] = useState([])
     const [summary, setSummary] = useState({ total: 0, completed: 0, uncompleted: 0 })
     const [title, setTitle] = useState("")
@@ -83,13 +82,6 @@ export function App() {
         }
     }
 
-    function handleSaveApiBase() {
-        const nextApiBase = saveApiBase(apiBaseDraft)
-        setApiBase(nextApiBase)
-        setApiBaseDraft(nextApiBase)
-        setStatus("Server 地址已保存")
-    }
-
     function handleRemind() {
         const message = uncompletedTodos.length > 0
             ? `你还有 ${uncompletedTodos.length} 个今日任务未完成`
@@ -105,13 +97,6 @@ export function App() {
     return (
         <main className="app-shell">
             <HeroCard loading={loading} onRefresh={loadTodos} />
-
-            <ServerConfig
-                value={apiBaseDraft}
-                loading={loading}
-                onChange={setApiBaseDraft}
-                onSave={handleSaveApiBase}
-            />
 
             <SummaryGrid summary={summary} />
 
@@ -145,24 +130,6 @@ function HeroCard({ loading, onRefresh }) {
             <button className="ghost-button" type="button" disabled={loading} onClick={onRefresh}>
                 刷新
             </button>
-        </section>
-    )
-}
-
-function ServerConfig({ value, loading, onChange, onSave }) {
-    return (
-        <section className="server-card">
-            <label htmlFor="apiBaseInput">Server 地址</label>
-            <div className="server-row">
-                <input
-                    id="apiBaseInput"
-                    type="url"
-                    value={value}
-                    autoComplete="off"
-                    onChange={(event) => onChange(event.target.value)}
-                />
-                <button type="button" disabled={loading} onClick={onSave}>保存</button>
-            </div>
         </section>
     )
 }

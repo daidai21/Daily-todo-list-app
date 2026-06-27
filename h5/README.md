@@ -9,7 +9,6 @@
 - JavaScript / JSX
 - 原生 CSS
 - Fetch API
-- LocalStorage
 
 ## 2. 目录结构
 
@@ -18,7 +17,7 @@ h5/
 ├── Makefile
 ├── README.md
 ├── dist/                   # 构建产物目录，执行 make build 后生成，不需要手写维护
-├── .env.example            # Server API 域名配置示例
+├── .env                    # Server API 域名配置示例
 ├── index.html              # Vite HTML 入口
 ├── node_modules/           # 依赖安装目录，执行 make install / make run / make build 后生成
 ├── package.json
@@ -57,10 +56,10 @@ make run
 http://localhost:5173
 ```
 
-也可以自定义 H5 端口和默认 Server API 地址：
+也可以自定义 H5 端口：
 
 ```bash
-make run PORT=3000 API_BASE_URL=http://localhost:8080
+make run PORT=3000
 ```
 
 ## 5. 构建产物
@@ -75,44 +74,33 @@ make build
 dist/
 ```
 
-也可以指定构建产物中的默认 Server API 地址：
+也可以通过环境变量指定构建产物中的默认 Server API 地址：
 
 ```bash
-make build API_BASE_URL=https://api.example.com
+VITE_API_BASE_URL=https://api.example.com make build
 ```
 
 ## 6. Server 域名配置
 
-H5 调用 Server 的地址已经配置化，默认值来自：
+H5 页面不提供 Server 地址输入模块，Server 地址通过代码配置和启动环境控制。
+
+默认值来自：
 
 ```text
 VITE_API_BASE_URL=http://localhost:8080
 ```
 
-配置示例文件：
-
-```text
-.env.example
-```
-
-可以复制一份本地配置：
+本地开发可以在启动时指定：
 
 ```bash
-cp .env.example .env.local
-```
-
-然后修改：
-
-```env
-VITE_API_BASE_URL=http://localhost:8080
+VITE_API_BASE_URL=http://localhost:8080 make run
 ```
 
 当前读取优先级：
 
 1. URL Query：`?apiBase=http://localhost:8080`
-2. 页面内保存到 LocalStorage 的 Server 地址
-3. Vite 环境变量：`VITE_API_BASE_URL`
-4. 兜底默认值：`http://localhost:8080`
+2. Vite 环境变量：`VITE_API_BASE_URL`
+3. 兜底默认值：`http://localhost:8080`
 
 配置读取逻辑位于：
 
@@ -121,8 +109,6 @@ src/config.js
 ```
 
 ## 7. 联调 Server
-
-请先启动 Go Server：
 
 请先启动 Go Server：
 
@@ -138,8 +124,6 @@ cd ../h5
 make run
 ```
 
-如果 Server 地址不是默认值，可以在 H5 页面顶部的「Server 地址」输入框中修改并保存。
-
 也可以通过 URL Query 指定：
 
 ```text
@@ -153,7 +137,6 @@ http://localhost:5173/?apiBase=http://localhost:8080
 - 标记任务完成
 - 标记任务未完成
 - 查看今日任务统计
-- 配置 Server API 地址
 - 点击「提醒我」触发 Native Bridge 预留逻辑
 
 ## 9. API 调用
