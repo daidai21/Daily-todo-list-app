@@ -47,7 +47,7 @@
 | H5 / Web | 完整任务管理页面 | 页面开发、状态管理、表单、列表渲染、JSBridge 调用 |
 | Lynx | 今日任务概览卡片 | 跨端动态组件、卡片化 UI、轻量交互、与 Native 通信 |
 | Native | App 宿主与系统能力 | WebView / Lynx 容器、JSBridge、Toast、本地通知、震动 |
-| Go Server | 任务数据接口与简单存储 | REST API、HTTP 服务、JSON 编解码、内存存储 |
+| Go Server | 任务数据接口与本地存储 | REST API、HTTP 服务、JSON 编解码、JSON 文件存储 |
 
 ## 4. 核心功能
 
@@ -93,7 +93,7 @@
 | 语言 | Go | 简洁、高性能，适合写 API Server |
 | HTTP 服务 | 标准库 `net/http` | 不依赖 Web 框架，直接理解 HTTP Handler / Router / Middleware |
 | 数据格式 | JSON | H5 / Lynx / Native 都容易接入 |
-| 存储 | 内存 Map | 第一天最快完成，重启后数据丢失可接受 |
+| 存储 | 本地 JSON 文件 | 零数据库依赖，服务重启后数据不丢失 |
 | CORS | 自己用 `net/http` 设置响应头 | 避免引入三方中间件，同时理解跨域响应头原理 |
 | ID 生成 | 时间戳 / 简单自增 ID | Demo 阶段不需要复杂 UUID |
 | 日志 | 标准库 `log` / `slog` | 先满足调试即可 |
@@ -102,7 +102,7 @@
 ### 5.2 第一天最推荐组合
 
 ```text
-Go + net/http + 内存存储 + 手写 CORS
+Go + net/http + JSON 文件存储 + 手写 CORS
 ```
 
 这个组合适合本项目的原因：
@@ -111,7 +111,7 @@ Go + net/http + 内存存储 + 手写 CORS
 - 零三方依赖，`go run` 即可启动，环境最简单。
 - 代码量少，可以把重点放在 API、数据模型和跨端联调上。
 - 可以直接理解 Go 标准库中 `http.HandleFunc`、`http.Request`、`http.ResponseWriter` 的用法。
-- 很适合实现 Todo 这种小型 CRUD 服务。
+- 很适合实现 Todo 这种小型 CRUD 服务，且能保留本地任务数据。
 - 后续可以平滑升级到 SQLite / MySQL / Redis。
 
 ### 5.3 暂不推荐第一天引入
@@ -125,8 +125,8 @@ Go + net/http + 内存存储 + 手写 CORS
 
 ### 5.4 推荐演进路线
 
-1. **第 1 阶段**：标准库 `net/http` + 内存 Map，实现最小 REST API。
-2. **第 2 阶段**：增加本地 JSON 文件存储，支持服务重启后数据不丢失。
+1. **第 1 阶段**：标准库 `net/http` + JSON 文件存储，实现最小 REST API。
+2. **第 2 阶段**：补充存储异常处理、备份恢复、数据迁移等能力。
 3. **第 3 阶段**：切换 SQLite，学习数据库表结构和 SQL。
 4. **第 4 阶段**：切换 MySQL / PostgreSQL，补充真实后端工程能力。
 5. **第 5 阶段**：增加用户登录、JWT 鉴权、多用户任务隔离。
@@ -172,7 +172,7 @@ Go + net/http + 内存存储 + 手写 CORS
 - H5：任务列表、添加任务、完成任务
 - Lynx：今日任务统计卡片
 - Native：加载 H5、加载 Lynx、Toast 或震动反馈
-- Go Server：任务 CRUD 最小接口、内存存储
+- Go Server：任务 CRUD 最小接口、JSON 文件本地存储
 
 ### 7.2 可选
 
