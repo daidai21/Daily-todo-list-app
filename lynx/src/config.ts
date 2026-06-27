@@ -1,6 +1,11 @@
 // Native 可以通过全局变量注入 API 地址，方便正式 App 宿主动态控制 Server 环境。
 type DailyTodoGlobalConfig = {
     __DAILY_TODO_API_BASE__?: string;
+    lynx?: {
+        __globalProps?: {
+            apiBase?: string;
+        };
+    };
 };
 
 // Lynx Explorer 在手机上预览时，localhost 指向手机自身；真实联调建议设置 LYNX_API_BASE_URL 为电脑局域网 IP。
@@ -13,7 +18,9 @@ export function getInitialApiBase(): string {
         DailyTodoGlobalConfig;
 
     return normalizeApiBase(
-        globalConfig.__DAILY_TODO_API_BASE__ || fallbackApiBase,
+        globalConfig.__DAILY_TODO_API_BASE__ ||
+            globalConfig.lynx?.__globalProps?.apiBase ||
+            fallbackApiBase,
     );
 }
 

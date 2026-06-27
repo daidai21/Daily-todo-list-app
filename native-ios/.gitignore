@@ -1,0 +1,17 @@
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# CocoaPods
+Pods/
+DailyTodoNative.xcworkspace/
+
+# Build output
+build/
+
+# Local
+.DS_Store
+*.log

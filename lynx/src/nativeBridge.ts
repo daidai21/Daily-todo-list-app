@@ -10,6 +10,11 @@ type NativeBridgeHost = {
     TodoNative?: {
         postMessage: (message: string) => void;
     };
+    NativeModules?: {
+        TodoNative?: {
+            postMessage: (message: string) => void;
+        };
+    };
 };
 
 // 统一封装 Lynx -> Native 的通信，业务组件只需要关心 action 和 payload。
@@ -26,6 +31,13 @@ export function notifyNative(
     const nativeHost = globalThis as typeof globalThis & NativeBridgeHost;
     if (nativeHost.TodoNative?.postMessage) {
         nativeHost.TodoNative.postMessage(JSON.stringify(message));
+        return;
+    }
+
+    if (nativeHost.NativeModules?.TodoNative?.postMessage) {
+        nativeHost.NativeModules.TodoNative.postMessage(
+            JSON.stringify(message),
+        );
         return;
     }
 

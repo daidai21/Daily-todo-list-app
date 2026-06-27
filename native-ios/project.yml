@@ -1,0 +1,29 @@
+name: DailyTodoNative
+options:
+  bundleIdPrefix: com.dailytodo
+  deploymentTarget:
+    iOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+targets:
+  DailyTodoNative:
+    type: application
+    platform: iOS
+    sources:
+      - path: DailyTodoNative
+        excludes:
+          - Resources/**
+    resources:
+      - path: DailyTodoNative/Resources
+        optional: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dailytodo.native
+        INFOPLIST_FILE: DailyTodoNative/Info.plist
+        SWIFT_OBJC_BRIDGING_HEADER: DailyTodoNative/Bridging/DailyTodoNative-Bridging-Header.h
+    dependencies:
+      - sdk: UIKit.framework
+      - sdk: UserNotifications.framework
