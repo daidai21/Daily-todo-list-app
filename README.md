@@ -14,11 +14,11 @@ Daily Todo List App 是一个围绕「今日待办」场景构建的跨端混合
 
 ## 2. Demo 效果
 
-### 2.1 H5 今日待办页面
+| H5 今日待办页面 | Lynx 今日任务概览卡片 | React Native Android 页面 |
+| --- | --- | --- |
+| ![H5 今日待办页面](imgs/h5.png) | 待补充 Lynx 截图 | 待补充 React Native 截图 |
 
-![H5 今日待办页面](imgs/h5.png)
-
-### 2.2 功能概览
+### 2.1 功能概览
 
 当前 Demo 已覆盖以下能力：
 
